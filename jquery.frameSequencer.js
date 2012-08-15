@@ -131,7 +131,12 @@
           clearInterval(data.tickTimer);
           data.playing = false;
           data.currentFrame = options.frame;
-          updateBackgroundPosition($el);
+          
+          if (data.settings.sequenceType == "sprite") {
+            updateBackgroundPosition($el);
+          } else if (data.settings.sequenceType == "multi-image") {
+            updateVisibleFrame($el);
+          }
           
           if (data.settings.onTick) {
             data.settings.onTick(data.currentFrame);
