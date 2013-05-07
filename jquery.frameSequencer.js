@@ -51,14 +51,15 @@
 
     init : function(options) {
       
-      var settings = $.extend(defaults, options);
-
+      settings = $.extend({}, defaults, options);
+    
       return this.each(function(){
-
         var $el = $(this);                
 
-        var data = $el.data('frameSequencer', {
-          settings: settings,
+        var _settings = $.extend(true, {}, settings)
+
+        $el.data('frameSequencer', {
+          settings: _settings,
           imagesLoaded: false,
           playing: false,
           tickTimer: null,
@@ -66,25 +67,27 @@
           targetFrame: null,
           playingBackwards: false
         });
-
+        
+        var data = $el.data('frameSequencer');
+        
         var initialStyle = {
-          width: settings.width, 
-          height: settings.height, 
+          width: data.settings.width, 
+          height: data.settings.height, 
           'display': 'block', 
           'overflow': 'hidden' 
         };
 
         $el.css(initialStyle);
 
-        if (settings.onInit){
-          settings.onInit();
+        if (data.settings.onInit){
+          data.settings.onInit();
         }
-
-        data.currentFrame = settings.startFrame;
         
-        if (settings.sequenceType == "sprite") {
-          preloadSprite($el, settings.spriteSheet);
-        } else if (settings.sequenceType == "multi-image") {
+        data.currentFrame = data.settings.startFrame;
+        
+        if (data.settings.sequenceType == "sprite") {
+          preloadSprite($el, data.settings.spriteSheet);
+        } else if (data.settings.sequenceType == "multi-image") {
           preloadImages($el);
         } else {
           logError("please use 'sprite' or 'multi-image' for sequenceType");
