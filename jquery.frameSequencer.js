@@ -194,7 +194,7 @@
           logError("playTo - provide a valid frame");
         };
       })
-    }  
+    }
   };
   
   //////////////////////////
@@ -312,13 +312,16 @@
           clearInterval(data.tickTimer);
         };
 
-        if (data.settings.onEnd) {
-          data.settings.onEnd();
+        if(data.settings.onEnd) {
+          setTimeout(function(){
+            data.settings.onEnd($el);
+          }, 1000/data.settings.fps);
         }
+        
         data.targetFrame = null;
       } else {
         data.currentFrame --;
-      } 
+      }
     } else {
       if (data.currentFrame == data.settings.totalFrames || data.currentFrame == data.targetFrame){ 
         if (data.settings.yoyo) {
@@ -330,10 +333,15 @@
           data.playing = false;
           clearInterval(data.tickTimer);
         }
-        if (data.settings.onEnd) {
-          data.settings.onEnd();
+        
+        if(data.settings.onEnd) {
+          setTimeout(function(){
+            data.settings.onEnd($el);
+          }, 1000/data.settings.fps);
         }
+        
         data.targetFrame = null;
+        
       } else {
         data.currentFrame ++;
       }
